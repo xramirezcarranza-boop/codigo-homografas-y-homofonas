@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homógrafas y Homófonas – Recurso Interactivo (3°)</title>
+  <style>
+    :root{
+      --bg1:#fde68a; --bg2:#93c5fd; --card:#ffffff; --accent:#7c3aed; --accent2:#10b981; --muted:#475569;
+    }
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:radial-gradient(circle at top left,var(--bg1),transparent 40%),radial-gradient(circle at bottom right,var(--bg2),transparent 40%),#f8fafc;margin:0;padding:20px;}
+    h1,h2,h3{text-align:center;margin:.3em 0}
+    .container{max-width:980px;margin:auto;}
+    .hero{background:linear-gradient(135deg,#fdf2f8,#eff6ff);border-radius:28px;padding:24px;box-shadow:0 20px 35px rgba(0,0,0,.08);position:relative;overflow:hidden}
+    .bubble{position:absolute;border-radius:50%;opacity:.25;filter:blur(1px)}
+    .b1{width:120px;height:120px;background:#f472b6;top:-30px;left:-30px}
+    .b2{width:160px;height:160px;background:#22d3ee;bottom:-40px;right:-40px}
+    .b3{width:80px;height:80px;background:#34d399;top:20px;right:40px}
+    .card{background:var(--card);padding:22px;border-radius:22px;box-shadow:0 12px 25px rgba(0,0,0,.08);margin:18px 0}
+    .badge{display:inline-block;background:var(--accent);color:#fff;padding:6px 12px;border-radius:999px;font-size:.85rem}
+    .row{display:flex;gap:14px;flex-wrap:wrap}
+    .col{flex:1 1 320px}
+    .words,.slots{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:12px}
+    .word{padding:10px 14px;background:#e0f2fe;border-radius:14px;cursor:pointer;font-weight:600}
+    .slot{min-width:110px;min-height:42px;border:2px dashed #93c5fd;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:700}
+    button{background:linear-gradient(135deg,var(--accent),#4f46e5);color:white;border:none;padding:10px 16px;border-radius:12px;cursor:pointer;margin:4px;font-weight:600}
+    button.secondary{background:linear-gradient(135deg,var(--accent2),#22c55e)}
+    button.ghost{background:#fff;color:var(--accent);border:2px solid #c7d2fe}
+    button:hover{filter:brightness(.95)}
+    .match-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:14px}
+    .card-item{background:#f1f5f9;padding:16px;border-radius:18px;text-align:center;cursor:pointer;font-weight:700}
+    .card-item:hover{background:#e2e8f0}
+    .feedback{margin-top:10px;font-weight:800;text-align:center}
+    .ok{color:#059669}.bad{color:#dc2626}
+    footer{text-align:center;color:var(--muted);margin:20px 0}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="bubble b1"></div><div class="bubble b2"></div><div class="bubble b3"></div>
+    <h1>🌈 Palabras Homógrafas y Homófonas</h1>
+    <p style="text-align:center;color:var(--muted)">Recurso interactivo para <strong>3° de primaria</strong></p>
+    <div style="text-align:center"><span class="badge">Aprendizaje significativo + Constructivismo</span></div>
+  </div>
+
+  <div class="card">
+    <h2>📘 Fundamento pedagógico</h2>
+    <p>Basado en el <strong>aprendizaje significativo (Ausubel)</strong> y el <strong>constructivismo (Vygotsky)</strong>: el estudiante construye el conocimiento mediante la experiencia, la interacción y la retroalimentación inmediata. Se favorece la discriminación semántica, la metacognición y el aprendizaje activo.</p>
+    <ul>
+      <li>Objetivo: distinguir palabras que se escriben igual pero significan cosas distintas (homógrafas) y palabras que suenan igual pero se escriben diferente (homófonas).</li>
+      <li>Tiempo sugerido: 25–35 minutos.</li>
+    </ul>
+  </div>
+
+  <!-- ACTIVIDAD 1 -->
+  <div class="card">
+    <h2>Actividad 1: Construye oraciones con homógrafas</h2>
+    <p>Haz clic en las palabras para formar la oración correcta.</p>
+    <div class="row">
+      <div class="col">
+        <div class="words" id="wordBank"></div>
+        <div class="slots" id="slotArea"></div>
+        <div style="text-align:center;">
+          <button onclick="checkSentence()">Comprobar</button>
+          <button class="secondary" onclick="nextSentence()">Siguiente oración</button>
+          <button class="ghost" onclick="startActivity1()">Reiniciar</button>
+        </div>
+        <div class="feedback" id="feedback1"></div>
+      </div>
+      <div class="col">
+        <h3>💡 Pista</h3>
+        <p id="hint" style="text-align:center;color:var(--muted)"></p>
+        <p style="color:var(--muted)">Homógrafas que verás: <strong>banco</strong>, <strong>pico</strong>, <strong>caja</strong>, <strong>cura</strong>, <strong>llama</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVIDAD 2 -->
+  <div class="card">
+    <h2>Actividad 2: Relaciona homófonas con imágenes</h2>
+    <p>Haz clic en la palabra correcta según la imagen.</p>
+    <h3 id="targetWord" style="text-align:center;font-size:3rem;">🌊</h3>
+    <div class="match-grid" id="matchGrid"></div>
+    <div class="feedback" id="feedback2"></div>
+    <div style="text-align:center;margin-top:8px">
+      <button onclick="nextPair()">Siguiente par</button>
+      <button class="ghost" onclick="startActivity2()">Reiniciar</button>
+    </div>
+  </div>
+</div>
+<footer>Recurso visual e interactivo • 3° primaria • Homógrafas y homófonas</footer>
+
+<!-- Evaluación final -->
+<section id="finalEval" style="margin-top:40px;background:linear-gradient(135deg,#e0f7fa,#e1bee7);padding:24px;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,.15)">
+  <h2 style="text-align:center;">📊 Evaluación Final</h2>
+  <p style="text-align:center;">Cuando termines las dos actividades, haz clic en el botón para conocer tu calificación.</p>
+  <div style="text-align:center;margin-top:12px;">
+    <button id="calcBtn" style="padding:10px 18px;border-radius:12px;border:none;font-size:1rem;background:#7e57c2;color:white;cursor:pointer;">Calcular nota</button>
+  </div>
+  <h3 id="finalScore" style="text-align:center;margin-top:16px;"></h3>
+  <div id="starScore" style="text-align:center;font-size:2rem;margin-top:8px;"></div>
+</section>
+
+<script>
+// ====== DATOS ======
+const SENTENCES = [
+  { words:["Me","senté","en","el","banco","del","parque","para","tomar","helado"], answer:["Me","senté","en","el","banco","del","parque","para","tomar","helado"], hint:"Aquí, 'banco' es para sentarse."},
+  { words:["Mi","mamá","fue","al","banco","a","retirar","dinero"], answer:["Mi","mamá","fue","al","banco","a","retirar","dinero"], hint:"Aquí, 'banco' es un lugar con dinero."},
+  { words:["El","pájaro","tiene","un","pico","muy","afilado"], answer:["El","pájaro","tiene","un","pico","muy","afilado"], hint:"'Pico' del ave."},
+  { words:["Necesitamos","un","pico","para","romper","la","piedra"], answer:["Necesitamos","un","pico","para","romper","la","piedra"], hint:"'Pico' como herramienta."},
+  { words:["Subimos","hasta","el","pico","de","la","montaña"], answer:["Subimos","hasta","el","pico","de","la","montaña"], hint:"'Pico' como parte alta."},
+  { words:["Guardé","mis","juguetes","en","una","caja","grande"], answer:["Guardé","mis","juguetes","en","una","caja","grande"], hint:"'Caja' para guardar."},
+  { words:["Pagamos","las","compras","en","la","caja","del","supermercado"], answer:["Pagamos","las","compras","en","la","caja","del","supermercado"], hint:"'Caja' donde se paga."},
+  { words:["La","cura","del","pueblo","ayuda","a","la","gente"], answer:["La","cura","del","pueblo","ayuda","a","la","gente"], hint:"'Cura' como persona."},
+  { words:["El","médico","busca","una","cura","para","la","enfermedad"], answer:["El","médico","busca","una","cura","para","la","enfermedad"], hint:"'Cura' como remedio."},
+  { words:["La","llama","vive","en","la","montaña"], answer:["La","llama","vive","en","la","montaña"], hint:"'Llama' es un animal."},
+  { words:["La","llama","del","fuego","es","muy","alta"], answer:["La","llama","del","fuego","es","muy","alta"], hint:"'Llama' del fuego."}
+];
+
+const PAIRS = [
+  { options:[{id:'ola',label:'ola',icon:'🌊'},{id:'hola',label:'hola',icon:'👋'}], correct:'ola' },
+  { options:[{id:'hola',label:'hola',icon:'👋'},{id:'ola',label:'ola',icon:'🌊'}], correct:'hola' },
+  { options:[{id:'cazar',label:'cazar',icon:'🎯🦌'},{id:'casar',label:'casar',icon:'👰🤵'}], correct:'cazar' },
+  { options:[{id:'casar',label:'casar',icon:'👰🤵'},{id:'cazar',label:'cazar',icon:'🎯🦌'}], correct:'casar' },
+  { options:[{id:'tubo',label:'tubo',icon:'🧪'},{id:'tuvo',label:'tuvo',icon:'📜'}], correct:'tubo' },
+  { options:[{id:'tuvo',label:'tuvo',icon:'📜'},{id:'tubo',label:'tubo',icon:'🧪'}], correct:'tuvo' },
+  { options:[{id:'rallar',label:'rallar',icon:'🧀'},{id:'rayar',label:'rayar',icon:'✏️'}], correct:'rallar' },
+  { options:[{id:'rayar',label:'rayar',icon:'✏️'},{id:'rallar',label:'rallar',icon:'🧀'}], correct:'rayar' }
+];
+
+// ====== ESTADO ======
+let idx1 = 0; let idx2 = 0;
+let placed = [];
+let score1 = 0, score2 = 0, total1 = 0, total2 = 0;
+
+// ====== ACTIVIDAD 1 ======
+function shuffle(a){ return a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]); }
+
+function startActivity1(){ idx1 = 0; score1 = 0; total1 = 0; loadSentence(); }
+
+function loadSentence(){
+  const s = SENTENCES[idx1]; placed = [];
+  document.getElementById('hint').textContent = s.hint;
+  const wb = document.getElementById('wordBank'); const sa = document.getElementById('slotArea');
+  wb.innerHTML = ''; sa.innerHTML = '';
+  shuffle(s.words).forEach(w=>{
+    const d = document.createElement('div'); d.className='word'; d.textContent=w;
+    d.onclick=()=>{ if(placed.length < s.answer.length){ placed.push(w); renderSlots(); d.remove(); }};
+    wb.appendChild(d);
+  });
+  for(let i=0;i<s.answer.length;i++){
+    const slot = document.createElement('div'); slot.className='slot'; sa.appendChild(slot);
+  }
+  document.getElementById('feedback1').textContent='';
+}
+
+function renderSlots(){ const sa=document.getElementById('slotArea'); [...sa.children].forEach((sl,i)=>sl.textContent=placed[i]||''); }
+
+function checkSentence(){
+  const s=SENTENCES[idx1]; total1++;
+  const ok = s.answer.join(' ') === placed.join(' ');
+  const fb=document.getElementById('feedback1');
+  if(ok){ fb.textContent='¡Correcto! 🎉'; fb.className='feedback ok'; score1++; }
+  else{ fb.textContent='Intenta de nuevo. ❌'; fb.className='feedback bad'; }
+}
+
+function nextSentence(){ if(idx1 < SENTENCES.length-1){ idx1++; loadSentence(); } }
+
+// ====== ACTIVIDAD 2 ======
+function startActivity2(){ idx2 = 0; score2 = 0; total2 = 0; loadPair(); }
+
+function loadPair(){ const p=PAIRS[idx2]; const tw=document.getElementById('targetWord'); const g=document.getElementById('matchGrid');
+  const correctOpt = p.options.find(o=>o.id===p.correct);
+  tw.innerHTML = correctOpt.icon; g.innerHTML='';
+  p.options.forEach(o=>{ const d=document.createElement('div'); d.className='card-item'; d.innerHTML=`${o.icon}<br>${o.label}`; d.onclick=()=>checkMatch(o.id); g.appendChild(d); });
+  document.getElementById('feedback2').textContent='';
+}
+
+function checkMatch(id){ total2++; const p=PAIRS[idx2]; const fb=document.getElementById('feedback2');
+  if(id===p.correct){ fb.textContent='¡Bien hecho! 🌟'; fb.className='feedback ok'; score2++; }
+  else{ fb.textContent='Casi. Vuelve a intentarlo. ❌'; fb.className='feedback bad'; }
+}
+
+function nextPair(){ if(idx2 < PAIRS.length-1){ idx2++; loadPair(); } }
+
+// ====== EVALUACIÓN ======
+const calcBtn = document.getElementById('calcBtn');
+calcBtn.onclick = ()=>{
+  const max = (total1+total2) || 1; const got = (score1+score2);
+  const percent = Math.round((got/max)*100);
+  let msg = `Tu calificación es: ${percent}/100.`; let stars=''; let motiv='';
+  if(percent>=90){ stars='★★★★★'; motiv='🏆 ¡Excelente! Dominas muy bien las homógrafas y homófonas.'; }
+  else if(percent>=70){ stars='★★★★☆'; motiv='👍 ¡Muy bien! Vas por un excelente camino.'; }
+  else if(percent>=60){ stars='★★★☆☆'; motiv='🙂 ¡Buen intento! Sigue practicando un poco más.'; }
+  else if(percent>=40){ stars='★★☆☆☆'; motiv='📖 Aún puedes mejorar. Repasa y vuelve a intentarlo.'; }
+  else{ stars='★☆☆☆☆'; motiv='💪 No te rindas. Con práctica lo lograrás.'; }
+  document.getElementById('finalScore').textContent = msg + ' ' + motiv;
+  document.getElementById('starScore').textContent = stars;
+}
+
+// ====== INICIO ======
+startActivity1(); startActivity2();
+</script>
+</body>
+</html>
